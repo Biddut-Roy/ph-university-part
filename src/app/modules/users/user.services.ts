@@ -1,19 +1,22 @@
-import { TUser } from './user.interfaces';
+import config from '../../config';
+import { TStudent } from '../student/student.interface';
 import { User } from './user.model';
 
-const createStudentIntoDB = async (studentData: TUser) => {
-  const result = await User.create(studentData);
-  return result;
+const createStudentIntoDB = async (password: string, studentData: TStudent) => {
+  //create a user object
+  const userData: Partial<TUser> = {};
 
-  // static method instance
+  userData.password = password || (config.default_pass as string);
 
-  //   const student = new Student(studentData); // create an instances
-  //   if (await student.isUserExist(studentData.id)) {
-  //     throw new Error('Student already exists');
-  //   }
+  //  set student role
+  userData.role = 'student';
+  userData.id = '20246800001';
 
-  //   const result = await student.save(); //build in instance method
-  //   return result;
+  const newUser = await User.create(userData);
+  if (Object.keys(newUser).length) {
+    studentData.id = newUser.id;
+    studentData.user = newUser._id;
+  }
 };
 
 export const userServices = {

@@ -5,16 +5,13 @@ const userSchema = new Schema<TUser>(
   {
     id: {
       type: String,
-      required: true,
       unique: true,
     },
     password: {
       type: String,
-      required: true,
     },
     needsPasswordChanges: {
       type: Boolean,
-      required: true,
     },
     role: {
       type: String,
@@ -28,7 +25,7 @@ const userSchema = new Schema<TUser>(
     },
     isDeleted: {
       type: Boolean,
-      required: true,
+      default: false,
     },
   },
   {

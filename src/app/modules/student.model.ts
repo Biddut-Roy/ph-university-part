@@ -68,8 +68,14 @@ const localGuradianSchema = new Schema<LocalGuardian>({
 });
 
 const studentSchema = new Schema<TStudent>({
-  id: { type: String },
+  id: { type: String, unique: true },
   name: userNameSchema,
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'User is required'],
+    unique: true,
+    ref: 'User',
+  },
   gender: ['male', 'female'],
   dateOfBirth: { type: String },
   email: { type: String, required: true },
@@ -81,7 +87,6 @@ const studentSchema = new Schema<TStudent>({
   guardian: guardianSchema,
   localGuardian: localGuradianSchema,
   profileImg: { type: String },
-  isActive: ['active', 'blocked'],
 });
 
 // instance methods

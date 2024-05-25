@@ -2,7 +2,8 @@ import { userServices } from './user.services';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
-    const { student: studentData } = req.body;
+    const { password, student: studentData } = req.body;
+
     const result = await userServices.createStudentIntoDB(studentData);
 
     res.status(200).json({
@@ -13,4 +14,8 @@ const createStudent = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const userControllers = {
+  createStudent,
 };
