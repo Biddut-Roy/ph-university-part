@@ -5,6 +5,7 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import { StudentRoutes } from './app/modules/student/student.route';
 import { UserRoutes } from './app/modules/users/user.route';
 import httpStatus from 'http-status';
+import router from './app/route';
 
 const app: Application = express();
 
@@ -13,9 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 // application routes
-app.use('/api/v1/students', StudentRoutes);
-
-app.use('/api/v1/user', UserRoutes);
+app.use('/api/v1', router);
 
 const getAController = (req: Request, res: Response) => {
   const a = 10;
