@@ -1,54 +1,64 @@
 import { Schema, model } from 'mongoose';
-import { TUser } from './user.interfaces';
-import bcrypt from 'bcrypt';
+import { TAcademicSemester, TMonths } from './academic.interface';
 
-const userSchema = new Schema<TUser>(
-  {
-    id: {
-      type: String,
-      unique: true,
-    },
-    password: {
-      type: String,
-    },
-    needsPasswordChanges: {
-      type: Boolean,
-    },
-    role: {
-      type: String,
-      enum: ['admin', 'student', 'faculty'],
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: ['in-progress', 'blocked'],
-      default: 'in-progress',
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false,
-    },
+const months: TMonths[] = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const academicSemesterSchema = new Schema<TAcademicSemester>({
+  name: { type: String, enum: ['Autumn', 'Summer', 'Fall'], required: true },
+  code: { type: String, enum: ['01', '02', '03'], required: true },
+  year: { type: Date, required: true },
+  startMonth: {
+    type: String,
+    enum: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    required: true,
   },
-  {
-    timestamps: true,
+  endMonth: {
+    type: String,
+    enum: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    required: true,
   },
+});
+
+export const academicSemesterModel = model<TAcademicSemester>(
+  'AcademicSemester',
+  academicSemesterSchema,
 );
-
-userSchema.pre('save', async function (next) {
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this;
-  if (!user.isModified('password')) {
-    return next();
-  }
-  user.password = await bcrypt.hash(user.password, 12);
-  next();
-});
-
-// post save middleware // hooks
-userSchema.post('save', function (doc, next) {
-  // console.log(this, 'post: we saved our data');
-  doc.password = '';
-  next();
-});
-
-export const User = model<TUser>('User', userSchema);
