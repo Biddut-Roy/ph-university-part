@@ -27,7 +27,7 @@ export type TStudent = {
   name: UserName;
   user: Types.ObjectId;
   gender: 'male' | 'female';
-  dateOfBirth?: string;
+  dateOfBirth?: Date;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
