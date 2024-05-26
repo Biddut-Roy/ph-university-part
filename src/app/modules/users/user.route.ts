@@ -5,6 +5,7 @@ import express from 'express';
 
 const router = express.Router();
 
+// check validation then  student controller working
 router.post(
   '/create-user',
   validationRequest(studentSchemaZODs.createStudentSchemaZOD),
