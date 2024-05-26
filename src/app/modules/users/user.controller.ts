@@ -1,14 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { userServices } from './user.services';
 import sendResponse from '../../utilis/sendrespons';
 import httpStatus from 'http-status';
-
-const catchAsync = (fn: RequestHandler) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch((err) => next(err));
-  };
-};
+import { catchAsync } from '../../utilis/cathAsynch';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createStudent = catchAsync(async (req, res, next) => {
