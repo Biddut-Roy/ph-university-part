@@ -39,7 +39,7 @@ const createStudentSchemaZOD = z.object({
   student: z.object({
     name: userNameSchema,
     gender: z.enum(['male', 'female', 'other']),
-    dateOfBirth: z.date().optional(),
+    dateOfBirth: z.string().optional(),
     email: z
       .string()
       .email({ message: 'Invalid email address' })
