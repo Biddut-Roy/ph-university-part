@@ -37,9 +37,11 @@ export type TStudent = {
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImg?: string;
+  admissionSemester: Types.ObjectId;
 };
 
 export type StudentMethods = {
+  // eslint-disable-next-line no-unused-vars
   isUserExist(id: string): Promise<TStudent | null>;
 };
 

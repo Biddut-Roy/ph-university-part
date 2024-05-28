@@ -87,6 +87,10 @@ const studentSchema = new Schema<TStudent>({
   guardian: guardianSchema,
   localGuardian: localGuradianSchema,
   profileImg: { type: String },
+  admissionSemester: {
+    type: Schema.Types.ObjectId,
+    ref: 'AcademicSemester',
+  },
 });
 
 // instance methods
