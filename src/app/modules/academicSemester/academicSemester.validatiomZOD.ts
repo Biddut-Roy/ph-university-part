@@ -7,7 +7,7 @@ import {
 
 const monthEnum = z.enum([...months] as [string, ...string[]]);
 
-export const academicSemesterSchemaZod = z.object({
+const createValidation = z.object({
   body: z.object({
     name: z.enum([...academicNames] as [string, ...string[]]),
     year: z.date(),
@@ -16,3 +16,7 @@ export const academicSemesterSchemaZod = z.object({
     endMonth: monthEnum,
   }),
 });
+
+export const academicSemesterSchemaZod = {
+  createValidation,
+};
