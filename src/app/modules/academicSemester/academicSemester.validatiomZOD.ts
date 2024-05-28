@@ -1,27 +1,17 @@
 import { z } from 'zod';
+import {
+  academicCodes,
+  academicNames,
+  months,
+} from './academicSemester.constant';
 
-const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-const monthEnum = z.enum(months);
+const monthEnum = z.enum([...months] as [string, ...string[]]);
 
 export const academicSemesterSchemaZod = z.object({
   body: z.object({
-    name: z.string().min(1, { message: 'Name is required' }),
-    year: z.string().min(1, { message: 'Year is required' }),
-    code: z.boolean(),
+    name: z.enum([...academicNames] as [string, ...string[]]),
+    year: z.date(),
+    code: z.enum([...academicCodes] as [string, ...string[]]),
     startMonth: monthEnum,
     endMonth: monthEnum,
   }),

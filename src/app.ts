@@ -25,6 +25,7 @@ app.get('/', getAController);
 
 // Error-handling middleware
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Something went wrong';
