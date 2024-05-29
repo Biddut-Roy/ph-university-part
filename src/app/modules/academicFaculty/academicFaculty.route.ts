@@ -1,15 +1,22 @@
 import express from 'express';
 import validationRequest from '../../utilis/validationRequest';
-import { academicFacultySchema } from './academicFaculty.validation';
 import { AcademicFacultyControllers } from './academicFaculty.controllrs';
+import { academicFacultyValidation } from './academicFaculty.validation';
 
 const router = express.Router();
 
-// check validation then  student controller working
+router.get('/get', AcademicFacultyControllers.getAllAcademicFaculty);
+router.get('/:facultyID', AcademicFacultyControllers.getAcademicFaculty);
+
 router.post(
-  '/create-faculty',
-  validationRequest(academicFacultySchema),
+  '/create',
+  validationRequest(academicFacultyValidation.academicFacultySchema),
   AcademicFacultyControllers.createAcademicFaculty,
 );
+router.patch(
+  '/:facultyId',
+  validationRequest(academicFacultyValidation.updateAcademicFacultySchema),
+  AcademicFacultyControllers.updateAcademicFaculty,
+);
 
-export const UserRoutes = router;
+export const AcademicFacultyRoutes = router;
