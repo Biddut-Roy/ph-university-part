@@ -1,15 +1,14 @@
 import { RequestHandler } from 'express';
-import { AcademicFacultyServices } from './academicFaculty.services';
+import { catchAsync } from '../../utilis/cathAsynch';
 import sendResponse from '../../utilis/sendrespons';
 import httpStatus from 'http-status';
-import { catchAsync } from '../../utilis/cathAsynch';
+import { academicDepartmentSchemaServices } from './academicDepartment.services';
 
-const createAcademicFaculty: RequestHandler = catchAsync(
+const createAcademicDepartment: RequestHandler = catchAsync(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   async (req, res, next) => {
-    const result = await AcademicFacultyServices.academicFacultyIntoDB(
-      req.body,
-    );
+    const result =
+      await academicDepartmentSchemaServices.academicDepartmentIntoDB(req.body);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -20,10 +19,11 @@ const createAcademicFaculty: RequestHandler = catchAsync(
   },
 );
 
-const getAllAcademicFaculty: RequestHandler = catchAsync(
+const getAllAcademicDepartment: RequestHandler = catchAsync(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   async (req, res, next) => {
-    const result = await AcademicFacultyServices.getAllAcademicFacultyFromDB();
+    const result =
+      await academicDepartmentSchemaServices.getAllAcademicDepartmentFromDB();
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -34,13 +34,15 @@ const getAllAcademicFaculty: RequestHandler = catchAsync(
   },
 );
 
-const getAcademicFaculty: RequestHandler = catchAsync(
+const getAcademicDepartment: RequestHandler = catchAsync(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   async (req, res, next) => {
-    const { facultyID } = req.params;
+    const { DepartmentID } = req.params;
 
     const result =
-      await AcademicFacultyServices.getAcademicFacultyFromDB(facultyID);
+      await academicDepartmentSchemaServices.getAcademicDepartmentFromDB(
+        DepartmentID,
+      );
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -51,12 +53,13 @@ const getAcademicFaculty: RequestHandler = catchAsync(
   },
 );
 
-const updateAcademicFaculty = catchAsync(async (req, res) => {
-  const { facultyId } = req.params;
-  const result = await AcademicFacultyServices.updateAcademicFacultyIntoDB(
-    facultyId,
-    req.body,
-  );
+const updateAcademicDepartment = catchAsync(async (req, res) => {
+  const { DepartmentID } = req.params;
+  const result =
+    await academicDepartmentSchemaServices.updateAcademicDepartmentIntoDB(
+      DepartmentID,
+      req.body,
+    );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -67,8 +70,8 @@ const updateAcademicFaculty = catchAsync(async (req, res) => {
 });
 
 export const AcademicFacultyControllers = {
-  createAcademicFaculty,
-  getAllAcademicFaculty,
-  getAcademicFaculty,
-  updateAcademicFaculty,
+  createAcademicDepartment,
+  getAllAcademicDepartment,
+  getAcademicDepartment,
+  updateAcademicDepartment,
 };
