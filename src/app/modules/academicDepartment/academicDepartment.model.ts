@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { TAcademicDepartment } from './academicDepartment.interfaces';
+import AppError from '../../errors/appError';
+import httpStatus from 'http-status';
 
 const academicDepartmentSchema = new Schema<TAcademicDepartment>(
   {
@@ -23,7 +25,7 @@ academicDepartmentSchema.pre('save', async function (next) {
   });
 
   if (isDepartmentExits) {
-    throw new Error(' Is department already exits');
+    throw new AppError(httpStatus.NOT_FOUND, ' Is department already exits');
   }
 
   next();
