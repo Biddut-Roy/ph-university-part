@@ -1,22 +1,25 @@
 import express from 'express';
 import validationRequest from '../../utilis/validationRequest';
-import { AcademicFacultyControllers } from './academicDepartment.controllrs';
 import { academicFacultyValidation } from './academicDepartment.validation';
+import { AcademicDepartmentControllers } from './academicDepartment.controllrs';
 
 const router = express.Router();
 
-router.get('/get', AcademicFacultyControllers.getAllAcademicDepartment);
-router.get('/:facultyID', AcademicFacultyControllers.getAcademicDepartment);
+router.get('/get', AcademicDepartmentControllers.getAllAcademicDepartment);
+router.get(
+  '/:DepartmentID',
+  AcademicDepartmentControllers.getAcademicDepartment,
+);
 
 router.post(
   '/create',
   validationRequest(academicFacultyValidation.academicDepartmentSchema),
-  AcademicFacultyControllers.createAcademicDepartment,
+  AcademicDepartmentControllers.createAcademicDepartment,
 );
 router.patch(
-  '/:facultyId',
+  '/:DepartmentID',
   validationRequest(academicFacultyValidation.updateAcademicDepartmentSchema),
-  AcademicFacultyControllers.updateAcademicDepartment,
+  AcademicDepartmentControllers.updateAcademicDepartment,
 );
 
-export const AcademicFacultyRoutes = router;
+export const AcademicDepartmentRoutes = router;
