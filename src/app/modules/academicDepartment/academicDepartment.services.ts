@@ -2,6 +2,14 @@ import { TAcademicDepartment } from './academicDepartment.interfaces';
 import { academicDepartment } from './academicDepartment.model';
 
 const academicDepartmentIntoDB = async (payload: TAcademicDepartment) => {
+  //same work pre middleware model
+  const isDepartmentExits = await academicDepartment.findOne({
+    name: payload.name,
+  });
+
+  if (isDepartmentExits) {
+    throw new Error(' Is department already exits');
+  }
   const result = await academicDepartment.create(payload);
   return result;
 };
