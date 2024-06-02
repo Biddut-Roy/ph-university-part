@@ -1,5 +1,8 @@
 import { RequestHandler } from 'express';
 import { StudentServices } from './student.service';
+import sendResponse from '../../utilis/sendrespons';
+import { catchAsync } from '../../utilis/cathAsynch';
+import httpStatus from 'http-status';
 
 const createStudent: RequestHandler = async (req, res, next) => {
   try {
@@ -46,8 +49,21 @@ const getSingleStudent: RequestHandler = async (req, res, next) => {
   }
 };
 
+const deleteStudent = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
+  const result = await StudentServices.deleteStudentFromDB(studentId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student is deleted succesfully',
+    data: result,
+  });
+});
+
 export const StudentControllers = {
   createStudent,
   getAllStudents,
   getSingleStudent,
+  deleteStudent,
 };
