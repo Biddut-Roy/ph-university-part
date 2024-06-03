@@ -6,6 +6,7 @@ import { StudentRoutes } from './app/modules/student/student.route';
 import { UserRoutes } from './app/modules/users/user.route';
 import httpStatus from 'http-status';
 import router from './app/route';
+import globalErrorHandler from './app/middleware/globalErrorHandler';
 
 const app: Application = express();
 
@@ -26,15 +27,7 @@ app.get('/', getAController);
 // Error-handling middleware
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Something went wrong';
-
-  return res.status(statusCode).json({
-    success: false,
-    message,
-  });
-});
+app.use(globalErrorHandler);
 
 // not route found
 app.use((req: Request, res: Response, next: NextFunction) => {
