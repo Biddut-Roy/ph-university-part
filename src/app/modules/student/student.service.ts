@@ -11,6 +11,8 @@ const createStudentIntoDB = async (student: TStudent) => {
 };
 
 const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
+  const queryObj = { ...query }; // copying req.query object so that we can mutate the copy object
+
   let searchTerm = ''; // SET DEFAULT VALUE
 
   // IF searchTerm  IS GIVEN SET IT
@@ -23,11 +25,21 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   // { presentAddress: { $regex : query.searchTerm , $options: i}}
   // { 'name.firstName': { $regex : query.searchTerm , $options: i}}
 
-  const result = await Student.find({
-    $or: ['email', 'name.firstName', 'presentAddress'].map((field) => ({
+  // WE ARE DYNAMICALLY DOING IT USING LOOP
+
+  const studentSearchableField = ['email', 'name.firstName', 'presentAddress'];
+  const searchQuery = Student.find({
+    $or: studentSearchableField.map((field) => ({
       [field]: { $regex: searchTerm, $options: 'i' },
     })),
-  })
+  });
+
+  // FILTERING fUNCTIONALITY:
+  const excludeFields = ['searchTerm', 'sort'];
+  excludeFields.forEach((el) => delete queryObj[el]); // DELETING THE FIELDS SO THAT IT CAN'T MATCH OR FILTER EXACTLY
+
+  const filterQuery = await searchQuery
+    .find(query)
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -36,7 +48,14 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
       },
     });
 
-  return result;
+  let sort = '-createdAt';
+  if (query.sort) {
+    sort = query.sort as string;
+  }
+
+  const sortQuery = filterQuery.sort(sort);
+
+  return sortQuery;
 };
 
 const getSingleStudentFromDB = async (id: string) => {
