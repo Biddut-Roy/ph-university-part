@@ -21,7 +21,7 @@ const createStudent: RequestHandler = async (req, res, next) => {
 
 const getAllStudents: RequestHandler = async (req, res, next) => {
   try {
-    const result = await StudentServices.getAllStudentsFromDB();
+    const result = await StudentServices.getAllStudentsFromDB(req.query);
 
     res.status(200).json({
       success: true,

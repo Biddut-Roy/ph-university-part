@@ -10,6 +10,7 @@ import handelZodError from '../errors/handelZodError';
 import handleValidationError from '../errors/handleValidationError';
 import handleDuplicateError from '../errors/handelDuplicateError';
 import handleCastError from '../errors/handelCastError';
+import AppError from '../errors/appError';
 
 const globalErrorHandler = (
   err: any,
@@ -47,6 +48,23 @@ const globalErrorHandler = (
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
+  } else if (err instanceof AppError) {
+    statusCode = err?.statusCode;
+    message = err.message;
+    errorSources = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
+  } else if (err instanceof Error) {
+    message = err.message;
+    errorSources = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
   }
 
   return res.status(statusCode).json({
