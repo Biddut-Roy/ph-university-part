@@ -48,14 +48,21 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
       },
     });
 
-  let sort = '-createdAt';
+  let sort: string = '-createdAt';
   if (query.sort) {
     sort = query.sort as string;
   }
 
   const sortQuery = filterQuery.sort(sort);
 
-  return sortQuery;
+  let limit: number = 1;
+  if (query.limit) {
+    limit = query.limit as number;
+  }
+
+  const limitQuery = sortQuery.limit(limit);
+
+  return limitQuery;
 };
 
 const getSingleStudentFromDB = async (id: string) => {
