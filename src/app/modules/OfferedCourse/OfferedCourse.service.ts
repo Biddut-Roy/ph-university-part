@@ -1,14 +1,10 @@
 import httpStatus from 'http-status';
-import QueryBuilder from '../../builder/QueryBuilder';
-import AppError from '../../errors/AppError';
-import { Course } from '../Course/course.model';
-import { Faculty } from '../Faculty/faculty.model';
-import { AcademicDepartment } from '../academicDepartment/academicDepartment.model';
-import { AcademicFaculty } from '../academicFaculty/academicFaculty.model';
 import { SemesterRegistration } from '../semesterRegistration/semesterRegistration.model';
 import { TOfferedCourse } from './OfferedCourse.interface';
 import { OfferedCourse } from './OfferedCourse.model';
 import { hasTimeConflict } from './OfferedCourse.utils';
+import AppError from '../../errors/appError';
+import { Course } from '../course/course.model';
 
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const {
@@ -50,7 +46,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const academicSemester = isSemesterRegistrationExits.academicSemester;
 
   const isAcademicFacultyExits =
-    await AcademicFaculty.findById(academicFaculty);
+    await academicFaculty.findById(academicFaculty);
 
   if (!isAcademicFacultyExits) {
     throw new AppError(httpStatus.NOT_FOUND, 'Academic Faculty not found !');

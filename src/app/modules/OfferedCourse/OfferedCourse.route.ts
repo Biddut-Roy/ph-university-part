@@ -1,7 +1,7 @@
 import express from 'express';
-import validateRequest from '../../middlewares/validateRequest';
 import { OfferedCourseControllers } from './OfferedCourse.controller';
 import { OfferedCourseValidations } from './OfferedCourse.validation';
+import validationRequest from '../../utilis/validationRequest';
 
 const router = express.Router();
 
@@ -11,13 +11,17 @@ router.get('/:id', OfferedCourseControllers.getSingleOfferedCourses);
 
 router.post(
   '/create-offered-course',
-  validateRequest(OfferedCourseValidations.createOfferedCourseValidationSchema),
+  validationRequest(
+    OfferedCourseValidations.createOfferedCourseValidationSchema,
+  ),
   OfferedCourseControllers.createOfferedCourse,
 );
 
 router.patch(
   '/:id',
-  validateRequest(OfferedCourseValidations.updateOfferedCourseValidationSchema),
+  validationRequest(
+    OfferedCourseValidations.updateOfferedCourseValidationSchema,
+  ),
   OfferedCourseControllers.updateOfferedCourse,
 );
 
