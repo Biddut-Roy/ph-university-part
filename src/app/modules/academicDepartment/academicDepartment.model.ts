@@ -20,7 +20,7 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>(
 );
 
 academicDepartmentSchema.pre('save', async function (next) {
-  const isDepartmentExits = await academicDepartment.findOne({
+  const isDepartmentExits = await academicDepartmentModel.findOne({
     name: this.name,
   });
 
@@ -33,7 +33,7 @@ academicDepartmentSchema.pre('save', async function (next) {
 
 academicDepartmentSchema.pre('findOneAndUpdate', async function (next) {
   const query = await this.getQuery();
-  const isDepartmentExits = await academicDepartment.findOne(query);
+  const isDepartmentExits = await academicDepartmentModel.findOne(query);
 
   if (!isDepartmentExits) {
     throw new Error("This id is doesn't exits");
@@ -42,7 +42,7 @@ academicDepartmentSchema.pre('findOneAndUpdate', async function (next) {
   next();
 });
 
-export const academicDepartment = model<TAcademicDepartment>(
+export const academicDepartmentModel = model<TAcademicDepartment>(
   'AcademicFaculty',
   academicDepartmentSchema,
 );

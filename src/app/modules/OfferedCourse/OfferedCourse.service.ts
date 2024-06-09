@@ -5,6 +5,10 @@ import { OfferedCourse } from './OfferedCourse.model';
 import { hasTimeConflict } from './OfferedCourse.utils';
 import AppError from '../../errors/appError';
 import { Course } from '../course/course.model';
+import QueryBuilder from '../../buider/QueryBuilder';
+import { Faculty } from '../Faculty/faculty.model';
+import { academicFacultyModel } from '../academicFaculty/academicFaculty.model';
+import { academicDepartmentModel } from '../academicDepartment/academicDepartment.model';
 
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const {
@@ -46,14 +50,14 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const academicSemester = isSemesterRegistrationExits.academicSemester;
 
   const isAcademicFacultyExits =
-    await academicFaculty.findById(academicFaculty);
+    await academicFacultyModel.findById(academicFaculty);
 
   if (!isAcademicFacultyExits) {
     throw new AppError(httpStatus.NOT_FOUND, 'Academic Faculty not found !');
   }
 
   const isAcademicDepartmentExits =
-    await AcademicDepartment.findById(academicDepartment);
+    await academicDepartmentModel.findById(academicDepartment);
 
   if (!isAcademicDepartmentExits) {
     throw new AppError(httpStatus.NOT_FOUND, 'Academic Department not found !');
@@ -72,7 +76,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   }
 
   // check if the department is belong to the  faculty
-  const isDepartmentBelongToFaculty = await AcademicDepartment.findOne({
+  const isDepartmentBelongToFaculty = await academicDepartmentModel.findOne({
     _id: academicDepartment,
     academicFaculty,
   });
