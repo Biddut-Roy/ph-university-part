@@ -5,6 +5,7 @@ import config from '../config';
 import AppError from '../errors/appError';
 import { catchAsync } from '../utilis/cathAsynch';
 import { User } from '../modules/users/user.model';
+import { TUserRole } from '../modules/users/user.interfaces';
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TUser } from './user.interfaces';
+import { TUser, UserModel } from './user.interfaces';
 import bcrypt from 'bcrypt';
 
 const userSchema = new Schema<TUser>(
@@ -71,4 +71,4 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
   return passwordChangedTime > jwtIssuedTimestamp;
 };
 
-export const User = model<TUser>('User', userSchema);
+export const User = model<TUser, UserModel>('User', userSchema);
