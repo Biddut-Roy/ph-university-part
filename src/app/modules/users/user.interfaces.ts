@@ -2,15 +2,15 @@
 import { Model } from 'mongoose';
 import { USER_ROLE } from './user.constant';
 
-export type TUser = {
+export interface TUser {
   id: string;
   password: string;
-  needsPasswordChanges: boolean;
+  needsPasswordChange: boolean;
   passwordChangedAt?: Date;
   role: 'admin' | 'student' | 'faculty';
   status: 'in-progress' | 'blocked';
   isDeleted: boolean;
-};
+}
 
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
