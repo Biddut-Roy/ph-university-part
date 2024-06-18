@@ -17,6 +17,7 @@ import { TFaculty } from '../Faculty/faculty.interface';
 import { TAdmin } from '../Admin/admin.interface';
 import { Admin } from '../Admin/admin.model';
 import { academicDepartmentModel } from '../academicDepartment/academicDepartment.model';
+import { TAcademicSemester } from '../academicSemester/academic.interface';
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   //create a user object
@@ -28,16 +29,17 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   userData.role = 'student';
   userData.email = payload.email;
 
-  const admissionSemester = await academicSemesterModel.findById(
-    payload.admissionSemester,
-  );
+  const admissionSemester: TAcademicSemester | null =
+    await academicSemesterModel.findById(payload.admissionSemester);
 
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
     //set  generated id
-    userData.id = await generateStudentId(admissionSemester);
+    userData.id = await generateStudentId(
+      admissionSemester as TAcademicSemester,
+    );
 
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session }); // array
