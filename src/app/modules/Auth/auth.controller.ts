@@ -16,7 +16,7 @@ const loginUser = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User is logged in succesfully!',
+    message: 'User is logged in successfully!',
     data: {
       accessToken,
       needsPasswordChange,
@@ -31,7 +31,7 @@ const changePassword = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Password is updated succesfully!',
+    message: 'Password is updated successfully!',
     data: result,
   });
 });
@@ -43,7 +43,19 @@ const refreshToken = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Access token is retrieved succesfully!',
+    message: 'Access token is retrieved successfully!',
+    data: result,
+  });
+});
+
+const forgatPassword = catchAsync(async (req, res) => {
+  const userID = req.body;
+  const result = await AuthServices.forgatPassword(userID);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'reset link is generated successfully!',
     data: result,
   });
 });
@@ -52,4 +64,5 @@ export const AuthControllers = {
   loginUser,
   changePassword,
   refreshToken,
+  forgatPassword,
 };
