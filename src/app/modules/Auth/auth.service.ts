@@ -6,6 +6,7 @@ import { TLoginUser } from './auth.interface';
 import { createToken } from './auth.utils';
 import { User } from '../users/user.model';
 import AppError from '../../errors/appError';
+import { sendEmail } from '../../utilis/sendEmail';
 
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
@@ -191,13 +192,15 @@ const forgatPassword = async (id: string) => {
     role: user.role,
   };
 
-  const accessToken = createToken(
+  const resetToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
     '10m',
   );
 
-  const recetUIlink = `http://localhost:5000?id=${user.id}&token=${accessToken}`;
+  const recetUIlink = `${config.reset_pass_ui_link}?id=${user.id}&token=${resetToken}`;
+
+  sendEmail(user.email, recetUIlink);
 
   return recetUIlink;
 };

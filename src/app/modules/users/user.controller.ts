@@ -12,7 +12,7 @@ const createStudent = catchAsync(async (req, res, next) => {
 
   // res.status(200).json({
   //   success: true,
-  //   message: 'Student is created succesfully',
+  //   message: 'Student is created successfully',
   //   data: result,
   // });
 
@@ -20,7 +20,7 @@ const createStudent = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is created succesfully',
+    message: 'Student is created successfully',
     data: result,
   });
 });
