@@ -13,6 +13,10 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/appError';
 import mongoose from 'mongoose';
 import { Faculty } from '../Faculty/faculty.model';
+import { TFaculty } from '../Faculty/faculty.interface';
+import { TAdmin } from '../Admin/admin.interface';
+import { Admin } from '../Admin/admin.model';
+import { academicDepartmentModel } from '../academicDepartment/academicDepartment.model';
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   //create a user object
@@ -77,7 +81,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
   userData.email = payload.email;
 
   // find academic department info
-  const academicDepartment = await AcademicDepartment.findById(
+  const academicDepartment = await academicDepartmentModel.findById(
     payload.academicDepartment,
   );
 
@@ -115,10 +119,10 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
     await session.endSession();
 
     return newFaculty;
-  } catch (err: any) {
+  } catch (err: unknown) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error(err);
+    throw new Error(err as string | undefined);
   }
 };
 
@@ -162,10 +166,10 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
     await session.endSession();
 
     return newAdmin;
-  } catch (err: any) {
+  } catch (err: unknown) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error(err);
+    throw new Error(err as string | undefined);
   }
 };
 
