@@ -49,7 +49,7 @@ const refreshToken = catchAsync(async (req, res) => {
 });
 
 const forgatPassword = catchAsync(async (req, res) => {
-  const userID = req.body;
+  const userID = req.body.id;
   const result = await AuthServices.forgatPassword(userID);
 
   sendResponse(res, {
@@ -60,9 +60,23 @@ const forgatPassword = catchAsync(async (req, res) => {
   });
 });
 
+const resetPassword = catchAsync(async (req, res) => {
+  const payload = req.body;
+  const token = req.headers.authorization;
+  const result = await AuthServices.resetPassword(payload, token);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'reset Password successfully!',
+    data: result,
+  });
+});
+
 export const AuthControllers = {
   loginUser,
   changePassword,
   refreshToken,
   forgatPassword,
+  resetPassword,
 };
