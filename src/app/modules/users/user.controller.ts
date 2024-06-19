@@ -8,7 +8,11 @@ import { catchAsync } from '../../utilis/cathAsynch';
 const createStudent = catchAsync(async (req, res, next) => {
   const { password, student: studentData } = req.body;
 
-  const result = await userServices.createStudentIntoDB(password, studentData);
+  const result = await userServices.createStudentIntoDB(
+    req.file,
+    password,
+    studentData,
+  );
 
   // res.status(200).json({
   //   success: true,

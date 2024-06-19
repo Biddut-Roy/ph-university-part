@@ -3,6 +3,10 @@ import fs from 'fs';
 import multer from 'multer';
 import config from '../config';
 
+export interface TCloudinaryResponse {
+  secure_url: string;
+}
+
 cloudinary.config({
   cloud_name: config.cloudinary_cloud_name,
   api_key: config.cloudinary_api_key,

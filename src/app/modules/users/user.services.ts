@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config';
 import { Student } from '../student.model';
 import { TStudent } from '../student/student.interface';
@@ -18,8 +19,16 @@ import { TAdmin } from '../Admin/admin.interface';
 import { Admin } from '../Admin/admin.model';
 import { academicDepartmentModel } from '../academicDepartment/academicDepartment.model';
 import { TAcademicSemester } from '../academicSemester/academic.interface';
+import {
+  TCloudinaryResponse,
+  sendImageToCloudinary,
+} from '../../utilis/sendImageToCloudinary';
 
-const createStudentIntoDB = async (password: string, payload: TStudent) => {
+const createStudentIntoDB = async (
+  file: any,
+  password: string,
+  payload: TStudent,
+) => {
   //create a user object
   const userData: Partial<TUser> = {};
 
@@ -41,6 +50,14 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
       admissionSemester as TAcademicSemester,
     );
 
+    const imageName = `${userData.id}${payload?.name?.firstName}`;
+    const path = file?.path;
+    //send image to cloudinary
+    const { secure_url } = (await sendImageToCloudinary(
+      imageName,
+      path,
+    )) as TCloudinaryResponse;
+
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session }); // array
 
@@ -51,6 +68,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     // set id , _id as user
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //reference _id
+    payload.profileImg = secure_url;
 
     // create a student (transaction-2)
 
